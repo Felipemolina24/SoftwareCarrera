@@ -13,8 +13,24 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-card>
+    <ion-card-title>Crear estudiante</ion-card-title>
+    <ion-card-content>
+      <ion-input type="text" [(ngModel)]="studentName" placeholder="Nombre"> </ion-input>
+      <ion-input type="text" [(ngModel)]="studentAge" placeholder="Edad"> </ion-input>
+      <ion-input type="text" [(ngModel)]="studentAddress" placeholder="Direcciòn"> </ion-input>
+      <ion-button (click)="CreateRecord()" expand="full" color="success"> Guardar </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let item of students">
+<ion-card-header>
+  <ion-card-title>Estudiante</ion-card-title>
+  <ion-card-subtitle>{{item.Name}}</ion-card-subtitle>
+  <ion-card-content>
+    Edad: {{item.age}}<br>
+    Direccion: {{item.Address}}
+  </ion-card-content>
+</ion-card-header>
+  </ion-card>
 </ion-content>

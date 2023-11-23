@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Sistema de colegio
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Barra de Navegación -->
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <!-- Botón para Recoger Alumno -->
+        <ion-button (click)="toggleRecoger()">
+          Recoger Alumno
+        </ion-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+        <!-- Botón para Registrar Alumno -->
+        <ion-button (click)="toggleRegistrar()">
+          Registrar Alumno
+        </ion-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="mostrarTabla()">
+          Mostrar Tabla
+        </ion-button>
+      </ion-buttons>
+
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Contenido Dinámico -->
+  <ion-card *ngIf="showRegistrar">
+    <!-- Contenido para Registrar Alumno -->
+    <ion-card-title>Asociar estudiante</ion-card-title>
+    <ion-card-content>
+      <ion-input type="text" [(ngModel)]="studentName" placeholder="Nombre"> </ion-input>
+      <ion-input type="text" [(ngModel)]="studentAddress" placeholder="Nivel de educación"> </ion-input>
+      <ion-button (click)="registrarAlumno()" expand="full" color="success"> Crear </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="showRecoger">
+    <!-- Contenido para Recoger Alumno Carril 1 -->
+    <ion-card-title>Carril 1</ion-card-title>
+    <ion-card-content>
+      <ion-input type="radio" [(ngModel)]="selectedCarril" value="Carril 1"> </ion-input>
+      <!-- Puedes agregar más campos según tus necesidades -->
+      <ion-button (click)="llegueAlumno()" expand="full" color="success"> Llegue </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="showRecoger">
+    <!-- Contenido para Recoger Alumno Carril 2 -->
+    <ion-card-title>Carril 2</ion-card-title>
+    
+    <ion-card-content>
+      
+      <ion-input type="radio" [(ngModel)]="selectedCarril" value="Carril 2"> </ion-input>
+      <!-- Puedes agregar más campos según tus necesidades -->
+      <ion-button (click)="llegueAlumno()" expand="full" color="success"> Llegue </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="showRecoger">
+    <!-- Contenido para Recoger Alumno Carril 3 -->
+    <ion-card-title>Carril 3</ion-card-title>
+    <ion-card-content>
+      <ion-input type="radio" [(ngModel)]="selectedCarril" value="Carril 3"> </ion-input>
+      <!-- Puedes agregar más campos según tus necesidades -->
+      <ion-button (click)="llegueAlumno()" expand="full" color="success"> Llegue </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="showTabla">
+    <ion-card-content>
+      <!-- Estructura de la Tabla -->
+      <ion-grid>
+        <ion-row>
+          <ion-col>Nombre</ion-col>
+          <ion-col>Sección</ion-col>
+          <ion-col>Acción</ion-col>
+        </ion-row>
+        
+        <!-- Puedes repetir esta estructura para cada fila de datos -->
+        <ion-row *ngFor="let item of students">
+          <ion-col> {{item.Name}}</ion-col>
+          <ion-col> {{item.Address}}</ion-col>
+          <ion-col> <ion-button expand="full" color="danger"> Eliminar </ion-button> </ion-col>
+        </ion-row>
+        <!-- Fin de la estructura de la tabla -->
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

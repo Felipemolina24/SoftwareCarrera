@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../service/crud.service';
+import { ActivatedRoute } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +9,9 @@ import { CrudService } from '../service/crud.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  students:any;
+
+  private studentsCollection = this.firestore.collection('Student');
+  students: any;
   studentName: string = "";
   studentAge: string = "correoexample1@mail.com";
   studentAddress: string = "";
@@ -18,21 +22,36 @@ export class HomePage {
   showTabla: boolean = false;
 
 
-  constructor(private crudService: CrudService) {}
-
+  constructor(private firestore: AngularFirestore, private crudService: CrudService, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      this.studentAge = params['fatherEmail'];
+    });
+  }
   ngOnInit() {
-    this.crudService.read_student().subscribe((data: any)=>{
-      this.students=data.map((e: any)=>{
-        return {
-          id: e.payload.doc.id,
-          isEdit: false,
-          Name: e.payload.doc.data()['Name'],
-          correoPadre:e.payload.doc.data()['correoPadre'],
-          Address: e.payload.doc.data()['Address']
+    this.buscaEstudiantes();
+  }
 
+  buscaEstudiantes() {
+    try {
+      this.studentsCollection.ref.where('correoPadre', '==', this.studentAge).get().then((querySnapshot) => {
+        let users: any = [];
+        querySnapshot.forEach((doc) => {
+          users.push(doc.data());
+        });
+        
+        if (users.length > 0) {
+          console.log(users);
+          this.students = users.map((user: any) => {
+            return {
+              Name: user.Name,
+              Address: user.Address
+            };
+          });
         }
-      })
-    })
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   toggleRegistrar() {
@@ -53,7 +72,7 @@ export class HomePage {
     this.showTabla = true;
   }
 
-  llegueAlumno(){
+  llegueAlumno() {
 
   }
 
@@ -70,8 +89,8 @@ export class HomePage {
       this.studentAddress = "";
       console.log(resp);
     })
-    .catch(error => {
-      console.log(error);
-    });
+      .catch(error => {
+        console.log(error);
+      });
   }
 }

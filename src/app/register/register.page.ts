@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../service/crud.service';
+
 @Component({
-  selector: 'app-registro',
-  templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.scss'],
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
-export class RegistroComponent  implements OnInit {
-
-
+export class RegisterPage implements OnInit {
   usuarioNombre: string = "";
   usuarioCedula: string = "";
   usuarioCelular: string = "";
   usuarioCorreo: string = "";
-  usuarioContraseña: string = "";
+  usuarioContrasenia: string = "";
 
   constructor(private crudService: CrudService) { }
 
@@ -25,7 +24,7 @@ export class RegistroComponent  implements OnInit {
     record['Cedula'] = this.usuarioCedula;
     record['Celular'] = this.usuarioCelular;
     record['Correo'] = this.usuarioCorreo;
-    record['Contraseña'] = this.usuarioContraseña;
+    record['Contraseña'] = this.usuarioContrasenia;
 
 
     this.crudService.createUsuario(record).then(resp => {
@@ -33,7 +32,7 @@ export class RegistroComponent  implements OnInit {
       this.usuarioCedula = "";
       this.usuarioCelular = "";
       this.usuarioCorreo = "";
-      this.usuarioContraseña = "";
+      this.usuarioContrasenia = "";
       console.log(resp);
     })
     .catch(error => {
